@@ -1,17 +1,28 @@
-import logging
 import requests
-import getCharacterPictures
+import json
 import urllib
 from random import randint
 from telegram import Update, ParseMode
-from telegram.ext import Updater, CommandHandler, CallbackContext, MessageHandler, Filters
-from multipledispatch import dispatch
+from telegram.ext import Updater, CallbackContext
 
-logging.basicConfig(
-    format = '%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO
-)
-
-logger = logging.getLogger(__name__)
+def get_character_picture(character) -> str:
+    """ Retrive a random character image """
+    results = None
+    try:
+        query = requests.get(f"https://api.jikan.moe/v3/search/character?q={urllib.parse.quote_plus(character)}&limit=2", timeout=10)
+        if query.status_code == 200:
+            results = query.json()['results'][0]
+    except:
+        pass
+    picture_url = None
+    if results:
+        character_id = results['mal_id']
+        try:
+            pictures_list = requests.get(f'https://api.jikan.moe/v3/character/{character_id}/pictures', timeout=10).json()['pictures']
+            picture_url = pictures_list[randint(0, len(pictures_list)-1)]['large']
+        except:
+            pass
+    return picture_url
 
 def start(update: Update, context: CallbackContext) -> None:
     update.message.reply_text("Hi! use /help to know the commands.")
@@ -35,7 +46,7 @@ def send_quote(id: int, context: CallbackContext, quotes: dict, job = None) -> N
     quote = data['quote']
     character = data['character']
     anime = data['anime']
-    picture = getCharacterPictures.get_character_picture(character)
+    picture = get_character_picture(character)
     if picture:
         context.bot.send_photo(
             chat_id=id,
