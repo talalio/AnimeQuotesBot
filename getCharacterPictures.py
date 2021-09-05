@@ -10,13 +10,11 @@ logging.basicConfig(
 
 logger = logging.getLogger(__name__)
 
-def get_character_picture(ucharacter) -> str:
+def get_character_picture(character) -> str:
     """ Retrive a random character image """
-    character = ucharacter
-    safe_name = urllib.parse.quote_plus(f"{character}")
     results = None
     try:
-        query = requests.get(f"https://api.jikan.moe/v3/search/character?q={safe_name}&limit=2", timeout=10)
+        query = requests.get(f"https://api.jikan.moe/v3/search/character?q={urllib.parse.quote_plus(character)}&limit=2", timeout=10)
         if query.status_code == 200:
             results = query.json()['results'][0]
     except:

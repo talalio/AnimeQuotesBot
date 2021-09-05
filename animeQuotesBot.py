@@ -1,9 +1,4 @@
-import html
-import json
-import traceback
 import logging
-import requests
-import getCharacterPictures
 import os
 from handlers import *
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
