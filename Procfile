@@ -1,1 +1,1 @@
-web: python3 animeQuotesBot.py
+web: python3 main.py
