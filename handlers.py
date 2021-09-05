@@ -95,7 +95,7 @@ def random_quote(update: Update, context: CallbackContext) -> None:
     """ fetch and send a random quote """
     data = requests.get('https://animechan.vercel.app/api/random').json()
     chat_id = update.effective_chat.id
-    send_quote(chat_id, context, quote)
+    send_quote(chat_id, context, data)
 
 def unknown_commands(update: Update, context: CallbackContext) -> None:
     """ Return a message for unknown commands """
