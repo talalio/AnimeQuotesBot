@@ -7,7 +7,7 @@ logging.basicConfig(
 	format = '%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO
 )
 
-BOT_TOKEN = ""
+BOT_TOKEN = os.environ.get('BOT_TOKEN')
 
 def main() -> None:
     updater = Updater(BOT_TOKEN)
