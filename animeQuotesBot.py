@@ -8,6 +8,7 @@ logging.basicConfig(
 )
 
 BOT_TOKEN = os.environ.get('BOT_TOKEN')
+APP_NAME = os.environ.get('APP_NAME')
 
 def main() -> None:
     updater = Updater(BOT_TOKEN)
@@ -31,7 +32,7 @@ def main() -> None:
     	listen="0.0.0.0",
         port=int(PORT),
         url_path=BOT_TOKEN,
-        webhook_url="https://yourapp.herokuapp.com/" + BOT_TOKEN
+        webhook_url=f"https://{APP_NAME}.herokuapp.com/{BOT_TOKEN}"
     )
     updater.idle()
 
