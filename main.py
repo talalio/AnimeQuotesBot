@@ -20,8 +20,7 @@ def main() -> None:
     dispatcher.add_handler(CommandHandler('cquote', character_quote, run_async=True))
     dispatcher.add_handler(CommandHandler('rquote', random_quote, run_async=True))
     dispatcher.add_handler(MessageHandler(Filters.command, unknown_commands, run_async=True ))
-    dispatcher.add_error_handler(error_handler)
-	
+
     PORT = int(os.environ.get('PORT', '8443'))
     updater.start_webhook(
     	listen="0.0.0.0",
