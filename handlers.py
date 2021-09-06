@@ -65,8 +65,8 @@ def send_quote(id: int, context: CallbackContext, quotes: dict, job = None) -> N
 
 def character_quote(update: Update, context: CallbackContext) -> None:
     """ Get a quote by a spacific character """
-    character = ' '.join(context.args)
     quote = None
+    character = ' '.join(context.args)
     if len(character) < 2:
         update.message.reply_text("character name must be more then 4 characters!")
         return
@@ -74,11 +74,10 @@ def character_quote(update: Update, context: CallbackContext) -> None:
         parameters = {'name': character}
         query = requests.get("https://animechan.vercel.app/api/quotes/character", headers={'User-Agent': USER_AGENT}, params=parameters)
         if valid_query(query):
-            quote = query.json()[randint(0,len(quote)-1)]
+            quote = query.json()[randint(0,len(query)-1)]
     except Exception as e:
     	print(e)
     chat_id = update.effective_chat.id
-    print(quote)
     send_quote(chat_id, context, quote)
 
 def anime_quote(update: Update, context: CallbackContext) -> None:
@@ -92,11 +91,10 @@ def anime_quote(update: Update, context: CallbackContext) -> None:
         parameters = {'title': anime}
         query = requests.get("https://animechan.vercel.app/api/quotes/anime", headers={'User-Agent': USER_AGENT}, params=parameters)
         if valid_query(query):
-            quote = query.json()[randint(0,len(quote)-1)]
+            quote = query.json()[randint(0,len(query)-1)]
     except Exception as e:
         print(e)
     chat_id = update.effective_chat.id
-    print(quote)
     send_quote(chat_id, context, quote)
 
 def random_quote(update: Update, context: CallbackContext) -> None:
@@ -115,5 +113,4 @@ def unknown_commands(update: Update, context: CallbackContext) -> None:
 def valid_query(query) -> bool:
     if query.status_code == 200:
         return True
-    else:
-        return False
+    return False
