@@ -67,6 +67,9 @@ def character_quote(update: Update, context: CallbackContext) -> None:
     """ Get a quote by a spacific character """
     character = ' '.join(context.args)
     quote = None
+    if len(character) < 2:
+        update.message.reply_text("character name must be more then 4 characters!")
+        return
     try:
         parameters = {'name': character}
         query = requests.get("https://animechan.vercel.app/api/quotes/character", headers={'User-Agent': USER_AGENT}, params=parameters)
@@ -79,8 +82,11 @@ def character_quote(update: Update, context: CallbackContext) -> None:
 
 def anime_quote(update: Update, context: CallbackContext) -> None:
     """ Get quote by anime title """
-    anime = ' '.join(context.args)
     quote = None
+    anime = ' '.join(context.args)
+    if len(anime) < 3:
+        update.message.reply_text("anime title must be more than 3 characters")
+        return
     try:
         parameters = {'title': anime}
         query = requests.get("https://animechan.vercel.app/api/quotes/anime", headers={'User-Agent': USER_AGENT}, params=parameters)
