@@ -74,7 +74,7 @@ def character_quote(update: Update, context: CallbackContext) -> None:
         parameters = {'name': character}
         query = requests.get("https://animechan.vercel.app/api/quotes/character", headers={'User-Agent': USER_AGENT}, params=parameters)
         if valid_query(query):
-            quote = query.json()[randint(0,len(query)-1)]
+            quote = query.json()[randint(0,len(query.json())-1)]
     except Exception as e:
     	print(e)
     chat_id = update.effective_chat.id
@@ -91,7 +91,7 @@ def anime_quote(update: Update, context: CallbackContext) -> None:
         parameters = {'title': anime}
         query = requests.get("https://animechan.vercel.app/api/quotes/anime", headers={'User-Agent': USER_AGENT}, params=parameters)
         if valid_query(query):
-            quote = query.json()[randint(0,len(query)-1)]
+            quote = query.json()[randint(0,len(query.json())-1)]
     except Exception as e:
         print(e)
     chat_id = update.effective_chat.id
