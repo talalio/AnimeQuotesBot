@@ -78,6 +78,7 @@ def character_quote(update: Update, context: CallbackContext) -> None:
     except Exception as e:
     	print(e)
     chat_id = update.effective_chat.id
+    print(quote)
     send_quote(chat_id, context, quote)
 
 def anime_quote(update: Update, context: CallbackContext) -> None:
@@ -95,6 +96,7 @@ def anime_quote(update: Update, context: CallbackContext) -> None:
     except Exception as e:
         print(e)
     chat_id = update.effective_chat.id
+    print(quote)
     send_quote(chat_id, context, quote)
 
 def random_quote(update: Update, context: CallbackContext) -> None:
