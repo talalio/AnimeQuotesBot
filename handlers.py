@@ -115,4 +115,5 @@ def unknown_commands(update: Update, context: CallbackContext) -> None:
 def valid_query(query) -> bool:
     if query.status_code == 200:
         return True
-    return False
+    else:
+        return False
