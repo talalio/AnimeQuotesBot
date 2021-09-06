@@ -100,9 +100,12 @@ def anime_quote(update: Update, context: CallbackContext) -> None:
 
 def random_quote(update: Update, context: CallbackContext) -> None:
     """ fetch and send a random quote """
-    data = requests.get('https://animechan.vercel.app/api/random', headers={'User-Agent': USER_AGENT}).json()
+    quote = None
+    query = requests.get('https://animechan.vercel.app/api/random', headers={'User-Agent': USER_AGENT})
+    if valid_query(query):
+        quote = query.json()
     chat_id = update.effective_chat.id
-    send_quote(chat_id, context, data)
+    send_quote(chat_id, context, quote)
 
 def unknown_commands(update: Update, context: CallbackContext) -> None:
     """ Return a message for unknown commands """
