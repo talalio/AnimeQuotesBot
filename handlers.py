@@ -1,6 +1,4 @@
 import requests
-import json
-import urllib
 from random import randint
 from telegram import Update, ParseMode
 from telegram.ext import Updater, CallbackContext
