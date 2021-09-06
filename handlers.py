@@ -68,7 +68,7 @@ def character_quote(update: Update, context: CallbackContext) -> None:
     character = ' '.join(context.args)
     print(f"char: {character}")
     quote = None
-    if len(character) < 2:
+    if len(str(character)) < 2:
         update.message.reply_text("character name must be more then 4 characters!")
         return
     try:
@@ -85,7 +85,7 @@ def anime_quote(update: Update, context: CallbackContext) -> None:
     """ Get quote by anime title """
     anime = ' '.join(context.args)
     print(f"anime: {anime}")
-    if len(anime) < 3:
+    if len(str(anime)) < 3:
         update.message.reply_text("anime title must be more than 3 characters")
         return
     quote = None
