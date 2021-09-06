@@ -3,12 +3,14 @@ from random import randint
 from telegram import Update, ParseMode
 from telegram.ext import Updater, CallbackContext
 
+USER_AGENT = 'Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.117 Safari/537.36'
+
 def get_character_picture(character) -> str:
     """ Retrive a random character image """
     results = None
     try:
         parameters = {'q': character, 'limit': 3}
-        query = requests.get("https://api.jikan.moe/v3/search/character", params=parameters, timeout=10)
+        query = requests.get("https://api.jikan.moe/v3/search/character", params=parameters, headers={'User-Agent': USER_AGENT}, timeout=10)
         if query.status_code == 200:
             results = query.json()['results'][0]
     except:
@@ -17,7 +19,7 @@ def get_character_picture(character) -> str:
     if results:
         character_id = results['mal_id']
         try:
-            pictures_list = requests.get(f'https://api.jikan.moe/v3/character/{character_id}/pictures', timeout=10).json()['pictures']
+            pictures_list = requests.get(f'https://api.jikan.moe/v3/character/{character_id}/pictures', headers={'User-Agent': USER_AGENT}, timeout=10).json()['pictures']
             picture_url = pictures_list[randint(0, len(pictures_list)-1)]['large']
         except:
             pass
@@ -68,12 +70,14 @@ def character_quote(update: Update, context: CallbackContext) -> None:
     if len(character) < 2:
         update.message.reply_text("character name must be more then 4 characters!")
         return
+    quote = None
     try:
         parameters = {'name': character}
-        quote = requests.get("https://animechan.vercel.app/api/quotes/character", params=parameters).json()
-        quote = quote[randint(0,len(quote)-1)]
-    except:
-    	quote = None
+        query = requests.get("https://animechan.vercel.app/api/quotes/character", headers={'User-Agent': USER_AGENT}, params=parameters)
+        if valid_query(query):
+            quote = query.json()[randint(0,len(quote)-1)]
+    except Exception as e:
+    	print(e)
     chat_id = update.effective_chat.id
     send_quote(chat_id, context, quote)
 
@@ -81,23 +85,30 @@ def anime_quote(update: Update, context: CallbackContext) -> None:
     """ Get quote by anime title """
     anime = ' '.join(context.args)
     if len(anime) < 3:
-        update.message.reply_text("anime title must be more than 2 characters")
+        update.message.reply_text("anime title must be more than 3 characters")
         return
+    quote = None
     try:
         parameters = {'title': anime}
-        quote = requests.get("https://animechan.vercel.app/api/quotes/anime", params=parameters).json()
-        quote = quote[randint(0,len(quote)-1)]
-    except:
-        quote = None
+        query = requests.get("https://animechan.vercel.app/api/quotes/anime", headers={'User-Agent': USER_AGENT}, params=parameters)
+        if valid_query(query):
+            quote = query.json()[randint(0,len(quote)-1)]
+    except Exception as e:
+        print(e)
     chat_id = update.effective_chat.id
     send_quote(chat_id, context, quote)
 
 def random_quote(update: Update, context: CallbackContext) -> None:
     """ fetch and send a random quote """
-    data = requests.get('https://animechan.vercel.app/api/random').json()
+    data = requests.get('https://animechan.vercel.app/api/random', headers={'User-Agent': USER_AGENT}).json()
     chat_id = update.effective_chat.id
     send_quote(chat_id, context, data)
 
 def unknown_commands(update: Update, context: CallbackContext) -> None:
     """ Return a message for unknown commands """
     update.message.reply_text("Unknown command!!")
+
+def valid_query(query) -> bool:
+    if query.status_code == 200:
+        return True
+    return False
