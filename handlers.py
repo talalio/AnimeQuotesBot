@@ -70,7 +70,7 @@ def character_quote(update: Update, context: CallbackContext) -> None:
         return
     try:
         parameters = {'name': character}
-    	quote = requests.get("https://animechan.vercel.app/api/quotes/character", params=parameters).json()
+        quote = requests.get("https://animechan.vercel.app/api/quotes/character", params=parameters).json()
     	quote = quote[randint(0,len(quote)-1)]
     except:
     	quote = None
