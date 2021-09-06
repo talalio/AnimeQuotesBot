@@ -66,7 +66,7 @@ def send_quote(id: int, context: CallbackContext, quotes: dict, job = None) -> N
 def character_quote(update: Update, context: CallbackContext) -> None:
     """ Get a quote by a spacific character """
     character = ' '.join(context.args)
-    print(f"char: {character}")
+    print(f"char: {character} / type: {type(character)}")
     quote = None
     if len(str(character)) < 2:
         update.message.reply_text("character name must be more then 4 characters!")
@@ -84,7 +84,7 @@ def character_quote(update: Update, context: CallbackContext) -> None:
 def anime_quote(update: Update, context: CallbackContext) -> None:
     """ Get quote by anime title """
     anime = ' '.join(context.args)
-    print(f"anime: {anime}")
+    print(f"anime: {anime} / type: {type(anime)}")
     if len(str(anime)) < 3:
         update.message.reply_text("anime title must be more than 3 characters")
         return
