@@ -8,7 +8,7 @@ Send /help command to the bot to get a list of commands.
 
 # Contact
 
-- telegram: https://t.me/Just4notherGeek
+- telegram: [@talalOfficial](https://t.me/talalOfficial)
 
 # Links
 
