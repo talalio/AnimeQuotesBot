@@ -41,7 +41,7 @@ def help_handler(update: Update, context: CallbackContext):
 def send_quote(id: int, context: CallbackContext, quotes: dict, job = None) -> None:
     """ send a quote """
     if not quotes:
-        update.message.reply_text("Sorry, no quotes found!")
+        context.bot.send_message(chat_id=id, text="Sorry, no quotes found!")
         return
     data = quotes
     quote = data['quote']
