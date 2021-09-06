@@ -9,7 +9,8 @@ def get_character_picture(character) -> str:
     """ Retrive a random character image """
     results = None
     try:
-        query = requests.get(f"https://api.jikan.moe/v3/search/character?q={urllib.parse.quote_plus(character)}&limit=2", timeout=10)
+        parameters = {'q': character, 'limit': 3}
+        query = requests.get("https://api.jikan.moe/v3/search/character", params=parameters, timeout=10)
         if query.status_code == 200:
             results = query.json()['results'][0]
     except:
@@ -70,7 +71,8 @@ def character_quote(update: Update, context: CallbackContext) -> None:
         update.message.reply_text("character name must be more then 4 characters!")
         return
     try:
-    	quote = requests.get(f"https://animechan.vercel.app/api/quotes/character?name={urllib.parse.quote_plus(character)}").json()
+        parameters = {'name': character}
+    	quote = requests.get("https://animechan.vercel.app/api/quotes/character", params=parameters).json()
     	quote = quote[randint(0,len(quote)-1)]
     except:
     	quote = None
@@ -84,7 +86,8 @@ def anime_quote(update: Update, context: CallbackContext) -> None:
         update.message.reply_text("anime title must be more than 2 characters")
         return
     try:
-        quote = requests.get(f"https://animechan.vercel.app/api/quotes/anime?title={urllib.parse.quote_plus(anime)}").json()
+        parameters = {'title': anime}
+        quote = requests.get("https://animechan.vercel.app/api/quotes/anime", params=parameters).json()
         quote = quote[randint(0,len(quote)-1)]
     except:
         quote = None
